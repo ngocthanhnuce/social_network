@@ -32,7 +32,7 @@ function TokenPage() {
     setLoading(true);
     try {
       if (field1 !== field2) {
-        return setErrorMsg("Passwords do not match");
+        return setErrorMsg("Mất khẩu không hợp lệ");
       }
 
       await axios.post(`${baseUrl}/api/reset/token`, {
@@ -55,19 +55,19 @@ function TokenPage() {
           attached
           success
           size="large"
-          header="Password reset successfull"
+          header="Đặt lại mật khẩu thành công"
           icon="check"
-          content="Login Again"
+          content="Đăng nhập lại"
           style={{ cursor: "pointer" }}
           onClick={() => router.push("/login")}
         />
       ) : (
-        <Message attached icon="settings" header="Reset Password" color="teal" />
+        <Message attached icon="settings" header="Đặt lại mật khẩu" color="teal" />
       )}
 
       {!success && (
         <Form loading={loading} onSubmit={resetPassword} error={errorMsg !== null}>
-          <Message error header="Oops!" content={errorMsg} />
+          <Message error header="Error!" content={errorMsg} />
 
           <Segment>
             <Form.Input
@@ -75,8 +75,8 @@ function TokenPage() {
               icon="eye"
               type="password"
               iconPosition="left"
-              label="New Password"
-              placeholder="Enter new Password"
+              label="Mật khẩu mới"
+              placeholder="Nhập mật khẩu mới"
               name="field1"
               onChange={handleChange}
               value={field1}
@@ -87,8 +87,8 @@ function TokenPage() {
               icon="eye"
               type="password"
               iconPosition="left"
-              label="Confirm Password"
-              placeholder="Confirm new Password"
+              label="Xác nhận mật khẩu"
+              placeholder="Xác nhận mật khẩu mới"
               name="field2"
               onChange={handleChange}
               value={field2}
@@ -102,7 +102,7 @@ function TokenPage() {
               icon="configure"
               type="submit"
               color="orange"
-              content="Reset"
+              content="Đặt lại"
             />
           </Segment>
         </Form>

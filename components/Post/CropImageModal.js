@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState, useEffect } from "react";
 import { Modal, Header, Button, Grid, Icon } from "semantic-ui-react";
 import Cropper from "react-cropper";
@@ -54,7 +55,7 @@ function CropImageModal({ mediaPreview, setMedia, showModal, setShowModal }) {
                 background={false}
                 autoCropArea={1}
                 checkOrientation={false}
-                onInitialized={cropper => setCropper(cropper)}
+                onInitialized={(cropper) => setCropper(cropper)}
               />
             </Modal.Content>
           </Grid.Column>
@@ -75,7 +76,7 @@ function CropImageModal({ mediaPreview, setMedia, showModal, setShowModal }) {
                       display: "inline-block",
                       padding: "10px",
                       overflow: "hidden",
-                      boxSizing: "border-box"
+                      boxSizing: "border-box",
                     }}
                     className="img-preview"
                   />
@@ -114,7 +115,12 @@ function CropImageModal({ mediaPreview, setMedia, showModal, setShowModal }) {
             onClick={() => setShowModal(false)}
           />
 
-          <Button content="Crop Image" icon="checkmark" positive onClick={getCropData} />
+          <Button
+            content="Crop Image"
+            icon="checkmark"
+            positive
+            onClick={getCropData}
+          />
         </Modal.Actions>
       </Modal>
     </>

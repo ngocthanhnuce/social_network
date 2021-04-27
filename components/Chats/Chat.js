@@ -8,7 +8,8 @@ function Chat({ chat, connectedUsers, deleteChat }) {
 
   const isOnline =
     connectedUsers.length > 0 &&
-    connectedUsers.filter(user => user.userId === chat.messagesWith).length > 0;
+    connectedUsers.filter((user) => user.userId === chat.messagesWith).length >
+      0;
 
   return (
     <>
@@ -17,7 +18,7 @@ function Chat({ chat, connectedUsers, deleteChat }) {
           active={router.query.message === chat.messagesWith}
           onClick={() =>
             router.push(`/messages?message=${chat.messagesWith}`, undefined, {
-              shallow: true
+              shallow: true,
             })
           }
         >
@@ -31,7 +32,13 @@ function Chat({ chat, connectedUsers, deleteChat }) {
 
               <Comment.Metadata>
                 <div>{calculateTime(chat.date)}</div>
-                <div style={{ position: "absolute", right: "10px", cursor: "pointer" }}>
+                <div
+                  style={{
+                    position: "absolute",
+                    right: "10px",
+                    cursor: "pointer",
+                  }}
+                >
                   <Icon
                     name="trash alternate"
                     color="red"

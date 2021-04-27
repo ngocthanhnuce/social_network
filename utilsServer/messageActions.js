@@ -1,3 +1,4 @@
+// @ts-nocheck
 const ChatModel = require("../models/ChatModel");
 const UserModel = require("../models/UserModel");
 

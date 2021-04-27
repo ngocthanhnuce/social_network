@@ -1,25 +1,31 @@
 import React from "react";
-import { Menu, Container, Icon, Dropdown } from "semantic-ui-react";
+import { Menu, Container, Icon, Dropdown, Grid } from "semantic-ui-react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { logoutUser } from "../../utils/authUser";
 
-function MobileHeader({ user: { unreadNotification, email, unreadMessage, username } }) {
+function MobileHeader({
+  user: { unreadNotification, email, unreadMessage, username },
+}) {
   const router = useRouter();
-  const isActive = route => router.pathname === route;
+  const isActive = (route) => router.pathname === route;
 
   return (
-    <>
+    <div>
       <Menu fluid borderless>
         <Container text>
           <Link href="/">
             <Menu.Item header active={isActive("/")}>
-              <Icon name="rss" size="large" />
+              <Icon name="home" size="large" />
             </Menu.Item>
           </Link>
 
           <Link href="/messages">
-            <Menu.Item header active={isActive("/messages") || unreadMessage}>
+            <Menu.Item
+              header
+              active={isActive("/messages") || unreadMessage}
+              style={{ paddingLeft: "8rem" }}
+            >
               <Icon
                 name={unreadMessage ? "hand point right" : "mail outline"}
                 size="large"
@@ -28,7 +34,10 @@ function MobileHeader({ user: { unreadNotification, email, unreadMessage, userna
           </Link>
 
           <Link href="/notifications">
-            <Menu.Item header active={isActive("/notifications") || unreadNotification}>
+            <Menu.Item
+              header
+              active={isActive("/notifications") || unreadNotification}
+            >
               <Icon
                 name={unreadNotification ? "hand point right" : "bell outline"}
                 size="large"
@@ -60,7 +69,7 @@ function MobileHeader({ user: { unreadNotification, email, unreadMessage, userna
           </Dropdown>
         </Container>
       </Menu>
-    </>
+    </div>
   );
 }
 

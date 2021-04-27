@@ -6,14 +6,14 @@ import { followUser, unfollowUser } from "../../utils/profileActions";
 function FollowerNotification({
   notification,
   loggedUserFollowStats,
-  setUserFollowStats
+  setUserFollowStats,
 }) {
   const [disabled, setDisabled] = useState(false);
 
   const isFollowing =
     loggedUserFollowStats.following.length > 0 &&
     loggedUserFollowStats.following.filter(
-      following => following.user === notification.user._id
+      (following) => following.user === notification.user._id
     ).length > 0;
 
   return (
@@ -26,7 +26,7 @@ function FollowerNotification({
               <Feed.User as="a" href={`/${notification.user.username}`}>
                 {notification.user.name}
               </Feed.User>{" "}
-              started following you.
+              đã bắt đầu theo dõi bạn.
               <Feed.Date>{calculateTime(notification.date)}</Feed.Date>
             </>
           </Feed.Summary>
@@ -42,7 +42,10 @@ function FollowerNotification({
                 setDisabled(true);
 
                 isFollowing
-                  ? await unfollowUser(notification.user._id, setUserFollowStats)
+                  ? await unfollowUser(
+                      notification.user._id,
+                      setUserFollowStats
+                    )
                   : await followUser(notification.user._id, setUserFollowStats);
 
                 setDisabled(false);

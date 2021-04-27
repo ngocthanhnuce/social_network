@@ -6,7 +6,7 @@ import calculateTime from "../../utils/calculateTime";
 function NotificationPortal({
   newNotification,
   notificationPopup,
-  showNotificationPopup
+  showNotificationPopup,
 }) {
   const router = useRouter();
 
@@ -19,7 +19,9 @@ function NotificationPortal({
       onOpen={newMsgSound}
       open={notificationPopup}
     >
-      <Segment style={{ right: "5%", position: "fixed", top: "10%", zIndex: 1000 }}>
+      <Segment
+        style={{ right: "5%", position: "fixed", top: "10%", zIndex: 1000 }}
+      >
         <Icon
           name="close"
           size="large"
@@ -34,8 +36,11 @@ function NotificationPortal({
             </Feed.Label>
             <Feed.Content>
               <Feed.Summary>
-                <Feed.User onClick={() => router.push(`/${username}`)}>{name} </Feed.User>{" "}
-                liked your <a onClick={() => router.push(`/post/${postId}`)}> post</a>
+                <Feed.User onClick={() => router.push(`/${username}`)}>
+                  {name}{" "}
+                </Feed.User>{" "}
+                liked your{" "}
+                <a onClick={() => router.push(`/post/${postId}`)}> post</a>
                 <Feed.Date>{calculateTime(Date.now())}</Feed.Date>
               </Feed.Summary>
             </Feed.Content>

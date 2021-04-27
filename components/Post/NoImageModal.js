@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from "react";
 import { Modal, Image, Card, Icon, Divider } from "semantic-ui-react";
 import PostComments from "./PostComments";
@@ -14,7 +15,7 @@ function NoImageModal({
   likes,
   isLiked,
   comments,
-  setComments
+  setComments,
 }) {
   return (
     <Card fluid>
@@ -35,8 +36,9 @@ function NoImageModal({
           style={{
             fontSize: "17px",
             letterSpacing: "0.1px",
-            wordSpacing: "0.35px"
-          }}>
+            wordSpacing: "0.35px",
+          }}
+        >
           {post.text}
         </Card.Description>
       </Card.Content>
@@ -68,10 +70,11 @@ function NoImageModal({
           style={{
             overflow: "auto",
             height: comments.length > 2 ? "200px" : "60px",
-            marginBottom: "8px"
-          }}>
+            marginBottom: "8px",
+          }}
+        >
           {comments.length > 0 &&
-            comments.map(comment => (
+            comments.map((comment) => (
               <PostComments
                 key={comment._id}
                 comment={comment}
@@ -82,7 +85,11 @@ function NoImageModal({
             ))}
         </div>
 
-        <CommentInputField postId={post._id} user={user} setComments={setComments} />
+        <CommentInputField
+          postId={post._id}
+          user={user}
+          setComments={setComments}
+        />
       </Card.Content>
     </Card>
   );

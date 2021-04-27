@@ -1,3 +1,4 @@
+// @ts-nocheck
 const express = require("express");
 const app = express();
 const server = require("http").Server(app);
@@ -24,7 +25,6 @@ const { likeOrUnlikePost } = require("./utilsServer/likeOrUnlikePost");
 io.on("connection", socket => {
   socket.on("join", async ({ userId }) => {
     const users = await addUser(userId, socket.id);
-    console.log(users);
 
     setInterval(() => {
       socket.emit("connectedUsers", {

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState, useEffect } from "react";
 import { Button, Image, List } from "semantic-ui-react";
 import Spinner from "../Layout/Spinner";
@@ -11,7 +12,7 @@ const Followers = ({
   user,
   loggedUserFollowStats,
   setUserFollowStats,
-  profileUserId
+  profileUserId,
 }) => {
   const [followers, setFollowers] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -21,17 +22,18 @@ const Followers = ({
     const getFollowers = async () => {
       setLoading(true);
       try {
-        const res = await axios.get(`${baseUrl}/api/profile/followers/${profileUserId}`, {
-          headers: { Authorization: cookie.get("token") }
-        });
-
+        const res = await axios.get(
+          `${baseUrl}/api/profile/followers/${profileUserId}`,
+          {
+            headers: { Authorization: cookie.get("token") },
+          }
+        );
         setFollowers(res.data);
       } catch (error) {
         alert("Error Loading Followers");
       }
       setLoading(false);
     };
-
     getFollowers();
   }, []);
 
@@ -40,13 +42,11 @@ const Followers = ({
       {loading ? (
         <Spinner />
       ) : followers.length > 0 ? (
-        followers.map(profileFollower => {
-          /*  */
-
+        followers.map((profileFollower) => {
           const isFollowing =
             loggedUserFollowStats.following.length > 0 &&
             loggedUserFollowStats.following.filter(
-              following => following.user === profileFollower.user._id
+              (following) => following.user === profileFollower.user._id
             ).length > 0;
 
           return (
@@ -61,10 +61,15 @@ const Followers = ({
                       disabled={followLoading}
                       onClick={() => {
                         setFollowLoading(true);
-
                         isFollowing
-                          ? unfollowUser(profileFollower.user._id, setUserFollowStats)
-                          : followUser(profileFollower.user._id, setUserFollowStats);
+                          ? unfollowUser(
+                              profileFollower.user._id,
+                              setUserFollowStats
+                            )
+                          : followUser(
+                              profileFollower.user._id,
+                              setUserFollowStats
+                            );
 
                         setFollowLoading(false);
                       }}

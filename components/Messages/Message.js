@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Icon, Popup } from "semantic-ui-react";
+import { Icon, Popup, Image } from "semantic-ui-react";
 import calculateTime from "../../utils/calculateTime";
 
 function Message({ message, user, deleteMsg, bannerProfilePic, divRef }) {
@@ -17,28 +17,37 @@ function Message({ message, user, deleteMsg, bannerProfilePic, divRef }) {
           className="inlineIcon"
           src={ifYouSender ? user.profilePicUrl : bannerProfilePic}
         />
-
-        <div className={ifYouSender ? "ownBubble own" : "otherBubble other"}>
-          {message.msg}
-        </div>
-
+        <Popup
+          pinned
+          content={calculateTime(message.date)}
+          on="click"
+          trigger={
+            <div
+              className={ifYouSender ? "ownBubble own" : "otherBubble other"}
+            >
+              {message.msg}
+            </div>
+          }
+        />
         {deleteIcon && (
           <Popup
             trigger={
               <Icon
                 name="trash"
                 color="red"
-                style={{ cursor: "pointer" }}
+                style={{ cursor: "pointer", marginTop: "15px" }}
                 onClick={() => deleteMsg(message._id)}
               />
             }
-            content="This will only delete the message from your inbox!"
+            content="Xóa tin nhắn khỏi hộp thư đến!"
             position="top right"
           />
         )}
       </div>
-
-      <span className={ifYouSender ? "own" : "other"}>{calculateTime(message.date)}</span>
+      {/* 
+      <span className={ifYouSender ? "own" : "other"}>
+        {calculateTime(message.date)}
+      </span> */}
     </div>
   );
 }

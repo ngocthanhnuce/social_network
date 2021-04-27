@@ -1,31 +1,37 @@
 import React from "react";
 import { Form, Button, Message, TextArea, Divider } from "semantic-ui-react";
 
-function CommonInputs({
-  user: { bio, facebook, instagram, youtube, twitter },
-  handleChange,
-  showSocialLinks,
-  setShowSocialLinks
-}) {
+const CommonInputs = (props) => {
+  const {
+    user: {
+      bio,
+      facebook,
+      instagram,
+      youtube,
+      twitter,
+    },
+    handleChange,
+    showSocialLinks,
+    setShowSocialLinks,
+  } = props;
   return (
     <>
       <Form.Field
         required
+        label="Bio"
         control={TextArea}
         name="bio"
         value={bio}
         onChange={handleChange}
         placeholder="bio"
       />
-
       <Button
         content="Add Social Links"
         color="red"
-        icon="at"
+        icon="rss"
         type="button"
         onClick={() => setShowSocialLinks(!showSocialLinks)}
       />
-
       {showSocialLinks && (
         <>
           <Divider />
@@ -36,7 +42,6 @@ function CommonInputs({
             value={facebook}
             onChange={handleChange}
           />
-
           <Form.Input
             icon="twitter"
             iconPosition="left"
@@ -44,7 +49,6 @@ function CommonInputs({
             value={twitter}
             onChange={handleChange}
           />
-
           <Form.Input
             icon="instagram"
             iconPosition="left"
@@ -52,7 +56,6 @@ function CommonInputs({
             value={instagram}
             onChange={handleChange}
           />
-
           <Form.Input
             icon="youtube"
             iconPosition="left"
@@ -60,17 +63,16 @@ function CommonInputs({
             value={youtube}
             onChange={handleChange}
           />
-
           <Message
             icon="attention"
             info
             size="small"
-            header="Social Media Links Are Optional!"
+            header="Gato social media link option"
           />
         </>
       )}
     </>
   );
-}
+};
 
 export default CommonInputs;

@@ -1,3 +1,4 @@
+// @ts-nocheck
 const express = require("express");
 const router = express.Router();
 const UserModel = require("../models/UserModel");
@@ -9,13 +10,12 @@ const baseUrl = require("../utils/baseUrl");
 const isEmail = require("validator/lib/isEmail");
 const options = {
   auth: {
-    api_key: process.env.sendGrid_api
-  }
+    api_key: process.env.sendGrid_api,
+  },
 };
 
 const transporter = nodemailer.createTransport(sendGridTransport(options));
 
-// CHECK USER EXISTS AND SEND EMAIL FOR RESET PASSWORD
 router.post("/", async (req, res) => {
   try {
     const { email } = req.body;
@@ -41,12 +41,12 @@ router.post("/", async (req, res) => {
 
     const mailOptions = {
       to: user.email,
-      from: "singh.inder5880@gmail.com",
-      subject: "Hi there! Password reset request",
+      from: "no.reply.halamadrid@gmail.com ",
+      subject: "Chào bạn! Yêu cầu đặt lại mật khẩu",
       html: `<p>Hey ${user.name
         .split(" ")[0]
-        .toString()}, There was a request for password reset. <a href=${href}>Click this link to reset the password </a>   </p>
-      <p>This token is valid for only 1 hour.</p>`
+        .toString()}, Đã có một yêu cầu đặt lại mật khẩu. <a href=${href}>Nhấp vào liên kết này để đặt lại mật khẩu </a>   </p>
+      <p>Mã thông báo này chỉ có giá trị trong 1 giờ.</p>`,
     };
 
     transporter.sendMail(mailOptions, (err, info) => err && console.log(err));
@@ -58,8 +58,6 @@ router.post("/", async (req, res) => {
   }
 });
 
-// VERIFY THE TOKEN AND RESET THE PASSWORD IN DB
-
 router.post("/token", async (req, res) => {
   try {
     const { token, password } = req.body;
@@ -69,7 +67,7 @@ router.post("/token", async (req, res) => {
     }
 
     if (password.length < 6)
-      return res.status(401).send("Password must be atleast 6 characters");
+      return res.status(401).send("Mật khẩu phải ít nhất 6 kí tự");
 
     const user = await UserModel.findOne({ resetToken: token });
 
@@ -78,7 +76,7 @@ router.post("/token", async (req, res) => {
     }
 
     if (Date.now() > user.expireToken) {
-      return res.status(401).send("Token expired.Generate new one");
+      return res.status(401).send("Mã thông báo hết hạn. Tạo mã mới");
     }
 
     user.password = await bcrypt.hash(password, 10);

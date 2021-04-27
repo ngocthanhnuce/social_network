@@ -1,18 +1,23 @@
 import React, { useState, useRef } from "react";
 import { Form, Button, Message, Divider } from "semantic-ui-react";
 import ImageDropDiv from "../Common/ImageDropDiv";
-import CommonInputs from "../Common/CommonInputs";
 import uploadPic from "../../utils/uploadPicToCloudinary";
 import { profileUpdate } from "../../utils/profileActions";
+import CommonInputUpdate from "../Common/CommonInputUpdate";
 
 function UpdateProfile({ Profile }) {
   const [profile, setProfile] = useState({
     profilePicUrl: Profile.user.profilePicUrl,
     bio: Profile.bio || "",
+    work: Profile.work || "",
+    relationship: Profile.relationship || "",
+    address: Profile.address || "",
+    education: Profile.education || "",
+    birthday: Profile.birthday || "",
     facebook: (Profile.social && Profile.social.facebook) || "",
     youtube: (Profile.social && Profile.social.youtube) || "",
     instagram: (Profile.social && Profile.social.instagram) || "",
-    twitter: (Profile.social && Profile.social.twitter) || ""
+    twitter: (Profile.social && Profile.social.twitter) || "",
   });
 
   const [errorMsg, setErrorMsg] = useState(null);
@@ -25,22 +30,22 @@ function UpdateProfile({ Profile }) {
   const [media, setMedia] = useState(null);
   const [mediaPreview, setMediaPreview] = useState(null);
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     const { name, value, files } = e.target;
 
     if (name === "media") {
       setMedia(files[0]);
       setMediaPreview(URL.createObjectURL(files[0]));
     }
-    setProfile(prev => ({ ...prev, [name]: value }));
+    setProfile((prev) => ({ ...prev, [name]: value }));
   };
 
   return (
-    <>
+    <div style={{paddingBottom: "25px"}}>
       <Form
         error={errorMsg !== null}
         loading={loading}
-        onSubmit={async e => {
+        onSubmit={async (e) => {
           e.preventDefault();
           setLoading(true);
 
@@ -77,7 +82,7 @@ function UpdateProfile({ Profile }) {
           profilePicUrl={profile.profilePicUrl}
         />
 
-        <CommonInputs
+        <CommonInputUpdate
           user={profile}
           handleChange={handleChange}
           showSocialLinks={showSocialLinks}
@@ -94,7 +99,7 @@ function UpdateProfile({ Profile }) {
           type="submit"
         />
       </Form>
-    </>
+    </div>
   );
 }
 

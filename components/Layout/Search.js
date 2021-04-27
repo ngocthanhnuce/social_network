@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useEffect, useState } from "react";
 import { List, Image, Search } from "semantic-ui-react";
 import axios from "axios";
@@ -11,7 +12,7 @@ function SearchComponent() {
   const [loading, setLoading] = useState(false);
   const [results, setResults] = useState([]);
 
-  const handleChange = async e => {
+  const handleChange = async (e) => {
     const { value } = e.target;
     if (value.length === 0) return setText(value);
 
@@ -25,9 +26,9 @@ function SearchComponent() {
 
       const res = await axios.get(`${baseUrl}/api/search/${value}`, {
         headers: { Authorization: token },
-        cancelToken: new CancelToken(canceler => {
+        cancelToken: new CancelToken((canceler) => {
           cancel = canceler;
-        })
+        }),
       });
 
       if (res.data.length === 0) {

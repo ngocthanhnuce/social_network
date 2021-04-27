@@ -1,3 +1,4 @@
+// @ts-nocheck
 const UserModel = require("../models/UserModel");
 const NotificationModel = require("../models/NotificationModel");
 

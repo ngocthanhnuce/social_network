@@ -13,7 +13,8 @@ function CommentNotification({ notification }) {
               <Feed.User as="a" href={`/${notification.user.username}`}>
                 {notification.user.name}
               </Feed.User>{" "}
-              commented on your <a href={`/post/${notification.post._id}`}>post.</a>
+              đã bình luận bài của bạn.
+              <a href={`/post/${notification.post._id}`}> Bài viết</a>
               <Feed.Date>{calculateTime(notification.date)}</Feed.Date>
             </>
           </Feed.Summary>

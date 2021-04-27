@@ -38,16 +38,16 @@ function ResetPage() {
         <Message
           attached
           icon="mail"
-          header="Check Your Inbox"
-          content="Please check your inbox for further instructions"
+          header="Kiểm tra email của bạn"
+          content="Vui lòng kiểm tra hộp thư đến của bạn để được hướng dẫn thêm"
           success
         />
       ) : (
-        <Message attached icon="settings" header="Reset Password" color="teal" />
+        <Message attached icon="settings" header="Đặt lại mật khẩu" color="teal" />
       )}
 
       <Form loading={loading} onSubmit={resetPassword} error={errorMsg !== null}>
-        <Message error header="Oops!" content={errorMsg} />
+        <Message error header="Error!" content={errorMsg} />
 
         <Segment>
           <Form.Input
@@ -56,7 +56,7 @@ function ResetPage() {
             type="email"
             iconPosition="left"
             label="Email"
-            placeholder="Enter email address"
+            placeholder="Nhập địa chỉ email"
             name="email"
             onChange={e => setEmail(e.target.value)}
             value={email}
@@ -68,7 +68,7 @@ function ResetPage() {
             icon="configure"
             type="submit"
             color="orange"
-            content="Submit"
+            content="Gửi"
           />
         </Segment>
       </Form>

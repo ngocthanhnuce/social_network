@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState } from "react";
 import { List, Image, Search } from "semantic-ui-react";
 import axios from "axios";
@@ -70,6 +71,7 @@ function ChatListSearch({ chats, setChats }) {
         loading && setLoading(false);
         setText("");
       }}
+      size="small"
       loading={loading}
       value={text}
       resultRenderer={ResultRenderer}

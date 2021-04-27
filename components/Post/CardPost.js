@@ -8,7 +8,8 @@ import {
   Button,
   Popup,
   Header,
-  Modal
+  Modal,
+  Grid,
 } from "semantic-ui-react";
 import PostComments from "./PostComments";
 import CommentInputField from "./CommentInputField";
@@ -18,12 +19,14 @@ import { deletePost, likePost } from "../../utils/postActions";
 import LikesList from "./LikesList";
 import ImageModal from "./ImageModal";
 import NoImageModal from "./NoImageModal";
+import { FacebookShareButton } from "react-share";
 
 function CardPost({ post, user, setPosts, setShowToastr, socket }) {
   const [likes, setLikes] = useState(post.likes);
 
   const isLiked =
-    likes.length > 0 && likes.filter(like => like.user === user._id).length > 0;
+    likes.length > 0 &&
+    likes.filter((like) => like.user === user._id).length > 0;
 
   const [comments, setComments] = useState(post.comments);
 
@@ -38,7 +41,7 @@ function CardPost({ post, user, setPosts, setShowToastr, socket }) {
     likes,
     isLiked,
     comments,
-    setComments
+    setComments,
   });
 
   return (
@@ -60,48 +63,42 @@ function CardPost({ post, user, setPosts, setShowToastr, socket }) {
         </Modal>
       )}
 
-      <Segment basic>
+      <>
         <Card color="teal" fluid>
-          {post.picUrl && (
-            <Image
-              src={post.picUrl}
-              style={{ cursor: "pointer" }}
-              floated="left"
-              wrapped
-              ui={false}
-              alt="PostImage"
-              onClick={() => setShowModal(true)}
-            />
-          )}
-
           <Card.Content>
-            <Image floated="left" src={post.user.profilePicUrl} avatar circular />
+            <Image
+              floated="left"
+              src={post.user.profilePicUrl}
+              avatar
+              circular
+            />
 
             {(user.role === "root" || post.user._id === user._id) && (
-              <>
+              <Grid.Column floated="right" width="2">
                 <Popup
                   on="click"
                   position="top right"
                   trigger={
-                    <Image
-                      src="/deleteIcon.svg"
+                    <Icon
+                      name="ellipsis horizontal"
+                      size="small"
                       style={{ cursor: "pointer" }}
-                      size="mini"
-                      floated="right"
                     />
                   }
                 >
-                  <Header as="h4" content="Are you sure?" />
-                  <p>This action is irreversible!</p>
-
-                  <Button
-                    color="red"
-                    icon="trash"
-                    content="Delete"
-                    onClick={() => deletePost(post._id, setPosts, setShowToastr)}
-                  />
+                  <Header as="h4" content="Bạn có muốn xóa bài viết ?" />
+                  <div style={{ textAlign: "center" }}>
+                    <Button
+                      color="red"
+                      icon="trash"
+                      content="Delete"
+                      onClick={() =>
+                        deletePost(post._id, setPosts, setShowToastr)
+                      }
+                    />
+                  </div>
                 </Popup>
-              </>
+              </Grid.Column>
             )}
 
             <Card.Header>
@@ -113,21 +110,42 @@ function CardPost({ post, user, setPosts, setShowToastr, socket }) {
             <Card.Meta>{calculateTime(post.createdAt)}</Card.Meta>
 
             {post.location && <Card.Meta content={post.location} />}
-
+          </Card.Content>
+          {post.picUrl && (
+            <Image
+              src={post.picUrl}
+              style={{ cursor: "pointer" }}
+              floated="left"
+              wrapped
+              ui={false}
+              alt="PostImage"
+              onClick={() => setShowModal(true)}
+            />
+          )}
+          <Card.Content>
             <Card.Description
               style={{
                 fontSize: "17px",
                 letterSpacing: "0.1px",
-                wordSpacing: "0.35px"
+                wordSpacing: "0.35px",
               }}
             >
-              {post.text}
+              <p>
+                <span style={{ color: "black", paddingRight: "5px" }}>
+                  {" "}
+                  <Link href={`/${post.user.username}`}>
+                    <a>{post.user.name}</a>
+                  </Link>
+                </span>
+                <span>{post.text}</span>
+              </p>
             </Card.Description>
           </Card.Content>
 
           <Card.Content extra>
             <Icon
               name={isLiked ? "heart" : "heart outline"}
+              size="large"
               color="red"
               style={{ cursor: "pointer" }}
               onClick={() => {
@@ -135,20 +153,27 @@ function CardPost({ post, user, setPosts, setShowToastr, socket }) {
                   socket.current.emit("likePost", {
                     postId: post._id,
                     userId: user._id,
-                    like: isLiked ? false : true
+                    like: isLiked ? false : true,
                   });
 
                   socket.current.on("postLiked", () => {
                     if (isLiked) {
-                      setLikes(prev => prev.filter(like => like.user !== user._id));
+                      setLikes((prev) =>
+                        prev.filter((like) => like.user !== user._id)
+                      );
                     }
                     //
                     else {
-                      setLikes(prev => [...prev, { user: user._id }]);
+                      setLikes((prev) => [...prev, { user: user._id }]);
                     }
                   });
                 } else {
-                  likePost(post._id, user._id, setLikes, isLiked ? false : true);
+                  likePost(
+                    post._id,
+                    user._id,
+                    setLikes,
+                    isLiked ? false : true
+                  );
                 }
               }}
             />
@@ -157,15 +182,26 @@ function CardPost({ post, user, setPosts, setShowToastr, socket }) {
               postId={post._id}
               trigger={
                 likes.length > 0 && (
-                  <span className="spanLikesList">
+                  <span className="spanLikesList" style={{ color: "black" }}>
                     {`${likes.length} ${likes.length === 1 ? "like" : "likes"}`}
                   </span>
                 )
               }
             />
 
-            <Icon name="comment outline" style={{ marginLeft: "7px" }} color="blue" />
-
+            <Icon
+              name="comment outline"
+              size="large"
+              style={{ marginLeft: "7px" }}
+              color="blue"
+            />
+            <FacebookShareButton
+              url={"https://social-network-98.herokuapp.com/"}
+              quote={post?.text}
+              // hashtag="#social_network"
+            >
+              <Icon name="send" size="large" style={{ marginLeft: "7px" }} />
+            </FacebookShareButton>
             {comments.length > 0 &&
               comments.map(
                 (comment, i) =>
@@ -192,10 +228,14 @@ function CardPost({ post, user, setPosts, setShowToastr, socket }) {
 
             <Divider hidden />
 
-            <CommentInputField user={user} postId={post._id} setComments={setComments} />
+            <CommentInputField
+              user={user}
+              postId={post._id}
+              setComments={setComments}
+            />
           </Card.Content>
         </Card>
-      </Segment>
+      </>
       <Divider hidden />
     </>
   );

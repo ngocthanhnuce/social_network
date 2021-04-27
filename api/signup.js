@@ -1,15 +1,14 @@
+// @ts-nocheck
 const express = require("express");
 const router = express.Router();
 const UserModel = require("../models/UserModel");
 const ProfileModel = require("../models/ProfileModel");
 const FollowerModel = require("../models/FollowerModel");
-const NotificationModel = require("../models/NotificationModel");
-const ChatModel = require("../models/ChatModel");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const isEmail = require("validator/lib/isEmail");
 const userPng =
-  "https://res.cloudinary.com/indersingh/image/upload/v1593464618/App/user_mklcpl.png";
+  "https://res.cloudinary.com/dvizwdhso/image/upload/v1616636208/y0paiuzoqswtedbej3ml.png";
 
 const regexUserName = /^(?!.*\.\.)(?!.*\.$)[^\W][\w.]{0,29}$/;
 
@@ -42,7 +41,7 @@ router.post("/", async (req, res) => {
     facebook,
     youtube,
     twitter,
-    instagram
+    instagram,
   } = req.body.user;
 
   if (!isEmail(email)) return res.status(401).send("Invalid Email");
@@ -63,7 +62,7 @@ router.post("/", async (req, res) => {
       email: email.toLowerCase(),
       username: username.toLowerCase(),
       password,
-      profilePicUrl: req.body.profilePicUrl || userPng
+      profilePicUrl: req.body.profilePicUrl || userPng,
     });
 
     user.password = await bcrypt.hash(password, 10);
@@ -81,15 +80,22 @@ router.post("/", async (req, res) => {
     if (twitter) profileFields.social.twitter = twitter;
 
     await new ProfileModel(profileFields).save();
-    await new FollowerModel({ user: user._id, followers: [], following: [] }).save();
-    await new NotificationModel({ user: user._id, notifications: [] }).save();
-    await new ChatModel({ user: user._id, chats: [] }).save();
+    await new FollowerModel({
+      user: user._id,
+      followers: [],
+      following: [],
+    }).save();
 
     const payload = { userId: user._id };
-    jwt.sign(payload, process.env.jwtSecret, { expiresIn: "2d" }, (err, token) => {
-      if (err) throw err;
-      res.status(200).json(token);
-    });
+    jwt.sign(
+      payload,
+      process.env.jwtSecret,
+      { expiresIn: "2d" },
+      (err, token) => {
+        if (err) throw err;
+        res.status(200).json(token);
+      }
+    );
   } catch (error) {
     console.error(error);
     return res.status(500).send(`Server error`);

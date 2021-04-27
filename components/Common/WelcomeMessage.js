@@ -5,14 +5,15 @@ import Link from "next/link";
 export const HeaderMessage = () => {
   const router = useRouter();
   const signupRoute = router.pathname === "/signup";
-
   return (
     <Message
       color="teal"
       attached
       header={signupRoute ? "Get Started" : "Welcome Back"}
       icon={signupRoute ? "settings" : "privacy"}
-      content={signupRoute ? "Create New Account" : "Login with Email and Password"}
+      content={
+        signupRoute ? "Create New Account" : "Login with Email and Password"
+      }
     />
   );
 };
@@ -27,7 +28,7 @@ export const FooterMessage = () => {
         <>
           <Message attached="bottom" warning>
             <Icon name="help" />
-            Existing User? <Link href="/login">Login Here Instead</Link>
+            Bạn đã có tài khoản? <Link href="/login">Đăng nhập ở đây</Link>
           </Message>
           <Divider hidden />
         </>
@@ -35,12 +36,12 @@ export const FooterMessage = () => {
         <>
           <Message attached="bottom" info>
             <Icon name="lock" />
-            <Link href="/reset">Forgot Password?</Link>
+            <Link href="/reset">Quên mật khẩu?</Link>
           </Message>
 
           <Message attached="bottom" warning>
             <Icon name="help" />
-            New User? <Link href="/signup">Signup Here</Link> Instead{" "}
+            Tạo tài khoản? <Link href="/signup">Đăng ký</Link>{" "}
           </Message>
         </>
       )}

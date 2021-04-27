@@ -1,25 +1,37 @@
 import React, { useState } from "react";
-import { Segment, Image, Grid, Divider, Header, Button, List } from "semantic-ui-react";
+import {
+  Segment,
+  Image,
+  Grid,
+  Divider,
+  Header,
+  Button,
+  List,
+} from "semantic-ui-react";
 import { followUser, unfollowUser } from "../../utils/profileActions";
 
 function ProfileHeader({
   profile,
   ownAccount,
   loggedUserFollowStats,
-  setUserFollowStats
+  setUserFollowStats,
 }) {
   const [loading, setLoading] = useState(false);
-
   const isFollowing =
     loggedUserFollowStats.following.length > 0 &&
     loggedUserFollowStats.following.filter(
-      following => following.user === profile.user._id
+      (following) => following.user === profile.user._id
     ).length > 0;
 
   return (
-    <>
+    <div style={{ backgroundColor: "#E6E6E6" }}>
       <Segment>
         <Grid stackable>
+          {/* <Grid.Row>
+            <Grid.Column width={16} style={{ textAlign: "center" }}>
+              <Image size="small" avatar src={profile.user.profilePicUrl} />
+            </Grid.Column>
+          </Grid.Row> */}
           <Grid.Column width={11}>
             <Grid.Row>
               <Header
@@ -35,6 +47,52 @@ function ProfileHeader({
             </Grid.Row>
 
             <Grid.Row>
+              <h3>Giới thiệu</h3>
+              {profile.work && (
+                <List.Item style={{ display: "flex" }}>
+                  <List.Icon name="briefcase" />
+                  <List.Content
+                    style={{ paddingLeft: "5px" }}
+                    content={profile.work}
+                  />
+                </List.Item>
+              )}
+              {profile.address && (
+                <List.Item style={{ display: "flex" }}>
+                  <List.Icon name="point" color="blue" />
+                  <List.Content
+                    style={{ paddingLeft: "5px" }}
+                    content={profile.address}
+                  />
+                </List.Item>
+              )}
+              {profile.relationship && (
+                <List.Item style={{ display: "flex" }}>
+                  <List.Icon name="heart" color="red" />
+                  <List.Content
+                    style={{ paddingLeft: "5px" }}
+                    content={profile.relationship}
+                  />
+                </List.Item>
+              )}
+              {profile.education && (
+                <List.Item style={{ display: "flex" }}>
+                  <List.Icon name="student" />
+                  <List.Content
+                    style={{ paddingLeft: "5px" }}
+                    content={profile.education}
+                  />
+                </List.Item>
+              )}
+              {profile.birthday && (
+                <List.Item style={{ display: "flex" }}>
+                  <List.Icon name="birthday cake" color="red" />
+                  <List.Content
+                    style={{ paddingLeft: "5px" }}
+                    content={profile.birthday}
+                  />
+                </List.Item>
+              )}
               {profile.social ? (
                 <List>
                   <List.Item>
@@ -43,43 +101,59 @@ function ProfileHeader({
                   </List.Item>
 
                   {profile.social.facebook && (
-                    <List.Item>
-                      <List.Icon name="facebook" color="blue" />
-                      <List.Content
-                        style={{ color: "blue" }}
-                        content={profile.social.facebook}
-                      />
-                    </List.Item>
+                    <div
+                      onClick={() => window.open(`${profile.social.facebook}`)}
+                    >
+                      <List.Item style={{ cursor: "pointer", display: "flex" }}>
+                        <List.Icon name="facebook" color="blue" />
+                        <List.Content
+                          style={{ color: "blue", paddingLeft: "5px" }}
+                          content={profile.social.facebook}
+                        />
+                      </List.Item>
+                    </div>
                   )}
 
                   {profile.social.instagram && (
-                    <List.Item>
-                      <List.Icon name="instagram" color="red" />
-                      <List.Content
-                        style={{ color: "blue" }}
-                        content={profile.social.instagram}
-                      />
-                    </List.Item>
+                    <div
+                      onClick={() => window.open(`${profile.social.instagram}`)}
+                    >
+                      <List.Item style={{ cursor: "pointer", display: "flex" }}>
+                        <List.Icon name="instagram" color="red" />
+                        <List.Content
+                          style={{ color: "blue", paddingLeft: "5px" }}
+                          content={profile.social.instagram}
+                        />
+                      </List.Item>
+                    </div>
                   )}
 
                   {profile.social.youtube && (
-                    <List.Item>
-                      <List.Icon name="youtube" color="red" />
-                      <List.Content
-                        style={{ color: "blue" }}
-                        content={profile.social.youtube}
-                      />
-                    </List.Item>
+                    <div
+                      onClick={() => window.open(`${profile.social.youtube}`)}
+                    >
+                      <List.Item style={{ cursor: "pointer", display: "flex" }}>
+                        <List.Icon name="youtube" color="red" />
+                        <List.Content
+                          style={{ color: "blue", paddingLeft: "5px" }}
+                          content={profile.social.youtube}
+                        />
+                      </List.Item>
+                    </div>
                   )}
 
                   {profile.social.twitter && (
-                    <List.Item>
-                      <List.Icon name="twitter" color="blue" />
-                      <List.Content
-                        style={{ color: "blue" }}
-                        content={profile.social.twitter}
-                      />
-                    </List.Item>
+                    <div
+                      onClick={() => window.open(`${profile.social.twitter}`)}
+                    >
+                      <List.Item style={{ cursor: "pointer" }}>
+                        <List.Icon name="twitter" color="blue" />
+                        <List.Content
+                          style={{ color: "blue", paddingLeft: "5px" }}
+                          content={profile.social.twitter}
+                        />
+                      </List.Item>
+                    </div>
                   )}
                 </List>
               ) : (
@@ -90,7 +164,7 @@ function ProfileHeader({
 
           <Grid.Column width={5} stretched style={{ textAlign: "center" }}>
             <Grid.Row>
-              <Image size="large" avatar src={profile.user.profilePicUrl} />
+              <Image size="small" avatar src={profile.user.profilePicUrl} />
             </Grid.Row>
             <br />
 
@@ -114,7 +188,7 @@ function ProfileHeader({
           </Grid.Column>
         </Grid>
       </Segment>
-    </>
+    </div>
   );
 }
 
